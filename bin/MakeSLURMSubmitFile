@@ -1,0 +1,57 @@
+#!/usr/bin/python
+
+import sys
+from datetime import datetime
+import subprocess
+
+#
+# ConfigParse changed between python 2 and python 3
+#
+if sys.version_info[0] == 2:
+    import ConfigParser as configparser
+elif sys.version_info[0] == 3:
+    import configparser
+else:
+    raise Exception("Must be using Python 3")
+
+#
+# Main
+#
+if __name__=="__main__":
+    import argparse
+    global outFile
+    global detFile
+
+    parser = argparse.ArgumentParser(description='Process some integers.')
+
+    parser.add_argument("-f", "--file", dest="ini",
+                      help="Name of ini configuration file", default="unkown.ini", metavar="FILE")
+    parser.add_argument("-c", "--crossover-prop", dest="cp", default = 10.0,
+                      type=float, help="Cross over probability")
+    parser.add_argument("-g", "--gsize", dest="gsize", default = 100,
+                      type=int, help="Population size")
+    parser.add_argument("-q", "--quiet", dest="quiet",
+                      action="store_false", default=True,
+                      help="Run in quiet mode")
+ 
+    args = parser.parse_args()
+    
+
+    gsize   = args.gsize
+    cp      = args.cp
+    iniFile = args.ini
+    quiet   = args.quiet
+    
+    date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    date = subprocess.Popen(['date'],stdout=subprocess.PIPE)
+    sys.stdout.write(str(date.stdout.readline().rstrip()) + " Starting site1.py with values:\n")
+ 
+    print ("     quiet:       " + str(quiet))
+    print ("  ini file:       " + str(iniFile))
+    print ("     gsize:       " + str(gsize))
+    print ("     cp:          " + str(cp))
+
+
+    config = configparser.ConfigParser()
+
+exit
